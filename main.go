@@ -2,7 +2,7 @@
  * @Date: 2020-11-08 19:04:14
  * @Author: fenggq
  * @LastEditors: fenggq
- * @LastEditTime: 2020-11-08 19:06:50
+ * @LastEditTime: 2020-11-08 19:50:03
  * @FilePath: /godemo/main.go
  */
 package godemo
@@ -34,7 +34,7 @@ func main() {
 	log.Printf("Build version:\t%s\n", BuildVersion)
 	log.Printf("Build time:\t%s\n", BuildTime)
 	log.Printf("Git revision:\t%s\n", GitRevision)
-	log.Printf("Git branch:\t%s\n", GitBranch)
+	//log.Printf("Git branch:\t%s\n", GitBranch)
 	log.Printf("Golang Version: %s\n", GoVersion)
 	log.Println("=====")
 }
