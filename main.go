@@ -2,10 +2,10 @@
  * @Date: 2020-11-08 19:04:14
  * @Author: fenggq
  * @LastEditors: fenggq
- * @LastEditTime: 2020-11-08 19:50:03
+ * @LastEditTime: 2020-11-08 20:06:15
  * @FilePath: /godemo/main.go
  */
-package godemo
+package main
 
 import "log"
 
