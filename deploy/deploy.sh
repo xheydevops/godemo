@@ -2,7 +2,7 @@
  # @Date: 2020-11-09 13:42:04
  # @Author: fenggq
  # @LastEditors: fenggq
- # @LastEditTime: 2020-11-10 10:28:13
+ # @LastEditTime: 2020-11-10 10:29:31
  # @FilePath: /godemo/deploy/deploy.sh
 ### 
 #! /bin/bash
@@ -73,7 +73,7 @@ else
             GIT_COMMIT_USER_NAME=$GIT_COMMIT_EMAIL
         fi
     else
-        #GIT_COMMIT_USER_NAME="name and email"
+       echo GIT_COMMIT_USER_NAME="name and email"
     fi
 fi
 echo $GIT_COMMIT_USER_NAME
