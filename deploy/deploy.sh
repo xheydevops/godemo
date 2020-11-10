@@ -2,7 +2,7 @@
  # @Date: 2020-11-09 13:42:04
  # @Author: fenggq
  # @LastEditors: fenggq
- # @LastEditTime: 2020-11-10 10:10:07
+ # @LastEditTime: 2020-11-10 10:19:45
  # @FilePath: /godemo/deploy/deploy.sh
 ### 
 #! /bin/bash
@@ -19,7 +19,7 @@ gitEmailMap["362739259@qq.com"]="冯国庆"
 gitEmailMap["aleutian.xie@cicisoft.cn"]="谢辉生"
 gitEmailMap["luo_yu_xia@163.com"]="骆玉霞"
 gitEmailMap["audu@qq.com"]="杜于庆"
-
+declare -A dingding
 dingding["冯国庆"]=17316225231
 dingding["骆玉霞"]=13552079799
 dingding["谢辉生"]=15901435695
@@ -58,8 +58,22 @@ echo BUILD_TIME $BUILD_TIME
 echo APP_VERSION $APP_VERSION
 
 if [[ "$GIT_COMMIT_NAME" != "" ]]
-  then
-      NAME=$GIT_COMMIT_NAME
-  else
-      echo "$1 not include $s2"
-  fi
+then
+    Name=${gitNameMap[$GIT_COMMIT_NAME]}
+    if [[ "$Name" == "" ]]
+    then
+        Name=$GIT_COMMIT_NAME
+    fi
+else
+    if [[ "$GIT_COMMIT_EMAIL" != "" ]]
+    then
+        Name=${gitEmailMap[$GIT_COMMIT_EMAIL]}
+        if [[ "$Name" == "" ]]
+        then
+            Name=$GIT_COMMIT_EMAIL
+        fi
+    else
+        Name="name and email"
+    fi
+fi
+echo $Name
