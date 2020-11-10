@@ -2,7 +2,7 @@
  # @Date: 2020-11-09 13:42:04
  # @Author: fenggq
  # @LastEditors: fenggq
- # @LastEditTime: 2020-11-10 10:29:31
+ # @LastEditTime: 2020-11-10 10:30:31
  # @FilePath: /godemo/deploy/deploy.sh
 ### 
 #! /bin/bash
@@ -60,7 +60,7 @@ echo APP_VERSION $APP_VERSION
 if [[ "$GIT_COMMIT_NAME" != "" ]]
 then
     GIT_COMMIT_USER_NAME=${gitNameMap[$GIT_COMMIT_NAME]}
-    if [[ "$Name" == "" ]]
+    if [[ "$GIT_COMMIT_USER_NAME" == "" ]]
     then
         GIT_COMMIT_USER_NAME=$GIT_COMMIT_NAME
     fi
