@@ -2,7 +2,7 @@
  * @Date: 2020-11-10 12:01:54
  * @Author: fenggq
  * @LastEditors: fenggq
- * @LastEditTime: 2020-11-10 12:02:04
+ * @LastEditTime: 2020-11-10 17:09:14
  * @FilePath: /godemo/v1.32_test.go
  */
 package main
@@ -47,6 +47,9 @@ func cmd(command string) (string, error) {
 
 func TestV132(t *testing.T) {
 	for _, v := range casesV132 {
+		caseItem, _ := json.Marshal(v)
+		t.Errorf("%s", string(caseItem))
+		return
 		if v.Responser == "" {
 			v.Responser = defaultResponser
 		}
@@ -57,7 +60,7 @@ func TestV132(t *testing.T) {
 		for _, w := range v.ExpectedOutput {
 			if strings.Contains(data, w) != true {
 				caseItem, _ := json.Marshal(v)
-				t.Errorf("%s", caseItem)
+				t.Errorf("%s", string(caseItem))
 			}
 		}
 	}
