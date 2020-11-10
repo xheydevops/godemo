@@ -2,7 +2,7 @@
  # @Date: 2020-11-09 13:42:04
  # @Author: fenggq
  # @LastEditors: fenggq
- # @LastEditTime: 2020-11-10 10:19:45
+ # @LastEditTime: 2020-11-10 10:28:13
  # @FilePath: /godemo/deploy/deploy.sh
 ### 
 #! /bin/bash
@@ -59,21 +59,28 @@ echo APP_VERSION $APP_VERSION
 
 if [[ "$GIT_COMMIT_NAME" != "" ]]
 then
-    Name=${gitNameMap[$GIT_COMMIT_NAME]}
+    GIT_COMMIT_USER_NAME=${gitNameMap[$GIT_COMMIT_NAME]}
     if [[ "$Name" == "" ]]
     then
-        Name=$GIT_COMMIT_NAME
+        GIT_COMMIT_USER_NAME=$GIT_COMMIT_NAME
     fi
 else
     if [[ "$GIT_COMMIT_EMAIL" != "" ]]
     then
-        Name=${gitEmailMap[$GIT_COMMIT_EMAIL]}
+        GIT_COMMIT_USER_NAME=${gitEmailMap[$GIT_COMMIT_EMAIL]}
         if [[ "$Name" == "" ]]
         then
-            Name=$GIT_COMMIT_EMAIL
+            GIT_COMMIT_USER_NAME=$GIT_COMMIT_EMAIL
         fi
     else
-        Name="name and email"
+        #GIT_COMMIT_USER_NAME="name and email"
     fi
 fi
-echo $Name
+echo $GIT_COMMIT_USER_NAME
+
+if [[ "$GIT_COMMIT_USER_NAME" != "" ]]
+then
+    DINGDING_PHONE=${dingding[$GIT_COMMIT_USER_NAME]}
+else
+    GIT_COMMIT_USER_NAME="name and email is null"
+fi
