@@ -2,13 +2,14 @@
  * @Date: 2020-11-08 19:04:14
  * @Author: fenggq
  * @LastEditors: fenggq
- * @LastEditTime: 2020-11-11 18:50:56
+ * @LastEditTime: 2020-11-11 19:32:04
  * @FilePath: /godemo/main.go
  */
 package main
 
 import (
 	"encoding/json"
+	"flag"
 	"fmt"
 	"log"
 	"os/exec"
@@ -76,22 +77,23 @@ func gotest(param *JenkinsMessageParam) string {
 	log.Println(err, "=====", out)
 	return out
 }
+
 func main() {
+	var token string
 	log.SetFlags(log.Lshortfile)
 	param := &JenkinsMessageParam{}
 	testErr := gotest(param)
-
+	flag.StringVar(&token, "t", "07de3a3799f70778bb98f95e7ef64b1693b30415a3ec59ea42e97de873f1aee0", "用户名,默认为空")
+	flag.Parse()
+	dingdingHook := fmt.Sprintf("https://oapi.dingtalk.com/robot/send?access_token=%s", token)
+	log.Println(dingdingHook)
 	dingTalk := DingTalk{
 		Robot: Robot{
-			WebHook: "https://oapi.dingtalk.com/robot/send?access_token=07de3a3799f70778bb98f95e7ef64b1693b30415a3ec59ea42e97de873f1aee0",
+			WebHook: dingdingHook,
 		},
 	}
-	gitlog := LoadCommitMessage("")
-	//latestLog := LoadLatestGitLogs()
 	user := LoadLatestCommitUser()
 	param.GitCommitName = user
-	param.GitLog = gitlog
 	param.ErrorMsg = testErr
-
-	dingTalk.SendJenkinsMessage(param, nil)
+	dingTalk.SendJenkinsMessage(param)
 }

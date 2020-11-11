@@ -2,7 +2,7 @@
  * @Date: 2020-11-10 20:32:43
  * @Author: fenggq
  * @LastEditors: fenggq
- * @LastEditTime: 2020-11-11 18:50:17
+ * @LastEditTime: 2020-11-11 19:15:12
  * @FilePath: /godemo/gitlog.go
  */
 package main
@@ -43,7 +43,7 @@ func LoadLatestCommitUser() string {
 		log.Println(err)
 		return ""
 	}
-	return gitlog
+	return strings.TrimSpace(gitlog)
 }
 
 //LoadCommitMessage ...
@@ -53,8 +53,8 @@ func LoadCommitMessage(commit string) string {
 		gitcmd = fmt.Sprintf("%s %s...", gitcmd, commit)
 	} else {
 		nowDate := time.Now()
-		nowDate = nowDate.AddDate(0, 0, -7)
-		log.Println(nowDate)
+		nowDate = nowDate.AddDate(0, 0, -2)
+		//log.Println(nowDate)
 		gitcmd = fmt.Sprintf("%s --after=%s", gitcmd, nowDate.Format("2006-01-02"))
 	}
 	log.Println(gitcmd)

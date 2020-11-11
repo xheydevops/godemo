@@ -2,7 +2,7 @@
  * @Date: 2020-11-10 16:46:16
  * @Author: fenggq
  * @LastEditors: fenggq
- * @LastEditTime: 2020-11-11 18:46:43
+ * @LastEditTime: 2020-11-11 19:22:29
  * @FilePath: /godemo/dingtalk.go
  */
 package main
@@ -86,14 +86,26 @@ func (d *DingTalk) GetReporters(param *JenkinsMessageParam) string {
 }
 
 //SendJenkinsMessage ...
-func (d *DingTalk) SendJenkinsMessage(param *JenkinsMessageParam, result *GoTest) (WebHookResponse, error) {
+func (d *DingTalk) SendJenkinsMessage(param *JenkinsMessageParam) (WebHookResponse, error) {
 	title := "jenkins自动化测试"
+	log.Printf("%#v", param)
 	user := GitUser[param.GitCommitName]
 	commitUser := MericsUser[user]
 	responser := d.GetReporters(param)
-
-	text := fmt.Sprintf("### 最近提交者：%s \n 开发者：%s \n ### gitlog ```json\n %s \n``` ### 测试错误信息\n```json\n %s \n``` \n @%s @%s",
-		user, result.Responser, param.GitLog, param.ErrorMsg, commitUser, responser)
+	alertUser := ""
+	resultTitle := "测试错误信息"
+	if len(responser) > 0 {
+		if len(commitUser) > 0 {
+			alertUser = fmt.Sprintf("@%s", commitUser)
+		}
+		alertUser = fmt.Sprintf("%s@%s", alertUser, responser)
+		param.GitLog = LoadCommitMessage("")
+	} else {
+		resultTitle = "测试结果正常"
+		param.GitLog = LoadLatestGitLogs()
+	}
+	text := fmt.Sprintf("### 最近提交者：%s \n \n ### gitlog \n```json\n %s \n```\n ### %s\n```json\n %s \n``` \n %s",
+		user, param.GitLog, resultTitle, param.ErrorMsg, alertUser)
 
 	msg := MarkdownMessage{
 		Title: title,
