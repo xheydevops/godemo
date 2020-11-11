@@ -2,7 +2,7 @@
  * @Date: 2020-11-08 19:04:14
  * @Author: fenggq
  * @LastEditors: fenggq
- * @LastEditTime: 2020-11-11 10:23:04
+ * @LastEditTime: 2020-11-11 14:43:54
  * @FilePath: /godemo/main.go
  */
 package main
@@ -79,7 +79,7 @@ func main() {
 		},
 	}
 	gitlog := LoadCommitMessage("")
-	log.Println(gitlog)
+	//log.Println(gitlog)
 	return
 	//	out, err := json.Marshal(msg)
 	param := &JenkinsMessageParam{}
