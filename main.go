@@ -2,7 +2,7 @@
  * @Date: 2020-11-08 19:04:14
  * @Author: fenggq
  * @LastEditors: fenggq
- * @LastEditTime: 2020-11-11 20:04:52
+ * @LastEditTime: 2020-11-11 20:41:44
  * @FilePath: /godemo/main.go
  */
 package main
@@ -80,7 +80,9 @@ func gotest(param *JenkinsMessageParam) string {
 
 func main() {
 	var token string
+
 	log.SetFlags(log.Lshortfile)
+	log.Printf("Build time:\t%s\n", BuildTime)
 	param := &JenkinsMessageParam{}
 	testErr := gotest(param)
 	flag.StringVar(&token, "t", "07de3a3799f70778bb98f95e7ef64b1693b30415a3ec59ea42e97de873f1aee0", "用户名,默认为空")
