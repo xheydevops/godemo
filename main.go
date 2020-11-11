@@ -2,7 +2,7 @@
  * @Date: 2020-11-08 19:04:14
  * @Author: fenggq
  * @LastEditors: fenggq
- * @LastEditTime: 2020-11-11 19:32:04
+ * @LastEditTime: 2020-11-11 20:04:52
  * @FilePath: /godemo/main.go
  */
 package main
@@ -57,7 +57,7 @@ func CMD(command string) (string, error) {
 func gotest(param *JenkinsMessageParam) string {
 	out, err := CMD("go test")
 	array := strings.Split(out, "\n")
-	for k, v := range array {
+	for _, v := range array {
 		if strings.Contains(v, "responser") {
 			testError := strings.SplitN(v, ": ", 2)
 			for ke, ve := range testError {
@@ -72,7 +72,7 @@ func gotest(param *JenkinsMessageParam) string {
 				log.Println(ke, ve)
 			}
 		}
-		log.Println(k, v)
+		//log.Println(k, v)
 	}
 	log.Println(err, "=====", out)
 	return out
