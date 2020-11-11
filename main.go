@@ -2,7 +2,7 @@
  * @Date: 2020-11-08 19:04:14
  * @Author: fenggq
  * @LastEditors: fenggq
- * @LastEditTime: 2020-11-10 19:39:45
+ * @LastEditTime: 2020-11-11 10:23:04
  * @FilePath: /godemo/main.go
  */
 package main
@@ -13,7 +13,6 @@ import (
 	"log"
 	"os"
 	"os/exec"
-	"strings"
 )
 
 var (
@@ -52,17 +51,10 @@ func CMD(command string) (string, error) {
 	}
 	return (string)(data), err
 }
+
 func main() {
 	log.SetFlags(log.Lshortfile)
-	gitlog, err := CMD("git log --date=format:'%Y-%m-%d %H:%M:%S'")
-	//str := strings.Replace(gitlog, "\n", "", -1)
-	//log.Println(str)
-	kv := strings.Split(gitlog, "\n")
-	for k, v := range kv {
-		log.Println(k, v)
-	}
 
-	return
 	//cmd := os.Args[0]
 	name := os.Args[1]
 	errMssage := ""
@@ -76,7 +68,7 @@ func main() {
 	log.Println(name, errMssage)
 
 	msg := &GoTest{}
-	err = json.Unmarshal([]byte(errMssage), msg)
+	err := json.Unmarshal([]byte(errMssage), msg)
 	if err != nil {
 		log.Println(err)
 	}
@@ -86,11 +78,13 @@ func main() {
 			WebHook: "https://oapi.dingtalk.com/robot/send?access_token=07de3a3799f70778bb98f95e7ef64b1693b30415a3ec59ea42e97de873f1aee0",
 		},
 	}
+	gitlog := LoadCommitMessage("")
+	log.Println(gitlog)
+	return
 	//	out, err := json.Marshal(msg)
 	param := &JenkinsMessageParam{}
 	param.GitCommitName = name
+	param.GitLog = gitlog
 	param.ErrorMsg = errMssage
 	dingTalk.SendJenkinsMessage(param, msg)
-	//dingTalk.SendTextMessage(string(out))
-
 }
