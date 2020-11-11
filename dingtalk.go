@@ -2,7 +2,7 @@
  * @Date: 2020-11-10 16:46:16
  * @Author: fenggq
  * @LastEditors: fenggq
- * @LastEditTime: 2020-11-11 19:22:29
+ * @LastEditTime: 2020-11-11 20:21:31
  * @FilePath: /godemo/dingtalk.go
  */
 package main
@@ -42,11 +42,13 @@ func init() {
 	gitEmailMap["aleutian.xie@cicisoft.cn"] = "谢辉生"
 	gitEmailMap["luo_yu_xia@163.com"] = "骆玉霞"
 	gitEmailMap["audu@qq.com"] = "杜于庆"
+	gitEmailMap["icecut@qq.com"] = "杜于庆"
 	GitUser = make(map[string]string)
 	GitUser["andyfenggq"] = "冯国庆"
 	GitUser["Aleutian Xie"] = "谢辉生"
 	GitUser["luo"] = "骆玉霞"
 	GitUser["audu"] = "杜于庆"
+	GitUser["姜亦春"] = "姜亦春"
 	MericsUser = make(map[string]string)
 	MericsUser["冯国庆"] = "17316225231"
 	MericsUser["骆玉霞"] = "13552079799"
