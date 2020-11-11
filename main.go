@@ -2,7 +2,7 @@
  * @Date: 2020-11-08 19:04:14
  * @Author: fenggq
  * @LastEditors: fenggq
- * @LastEditTime: 2020-11-11 14:43:54
+ * @LastEditTime: 2020-11-11 18:50:56
  * @FilePath: /godemo/main.go
  */
 package main
@@ -11,8 +11,8 @@ import (
 	"encoding/json"
 	"fmt"
 	"log"
-	"os"
 	"os/exec"
+	"strings"
 )
 
 var (
@@ -52,39 +52,46 @@ func CMD(command string) (string, error) {
 	return (string)(data), err
 }
 
+//
+func gotest(param *JenkinsMessageParam) string {
+	out, err := CMD("go test")
+	array := strings.Split(out, "\n")
+	for k, v := range array {
+		if strings.Contains(v, "responser") {
+			testError := strings.SplitN(v, ": ", 2)
+			for ke, ve := range testError {
+				if strings.Contains(v, "responser") {
+					msg := &GoTest{}
+					err := json.Unmarshal([]byte(ve), msg)
+					if err != nil {
+						log.Println(err)
+					}
+					param.GoTestError = append(param.GoTestError, msg)
+				}
+				log.Println(ke, ve)
+			}
+		}
+		log.Println(k, v)
+	}
+	log.Println(err, "=====", out)
+	return out
+}
 func main() {
 	log.SetFlags(log.Lshortfile)
+	param := &JenkinsMessageParam{}
+	testErr := gotest(param)
 
-	//cmd := os.Args[0]
-	name := os.Args[1]
-	errMssage := ""
-	for i, a := range os.Args[2:] {
-		fmt.Printf("Argument %d is %s\n", i+1, a)
-		if errMssage != "" {
-			errMssage += " "
-		}
-		errMssage += a
-	}
-	log.Println(name, errMssage)
-
-	msg := &GoTest{}
-	err := json.Unmarshal([]byte(errMssage), msg)
-	if err != nil {
-		log.Println(err)
-	}
-	log.Printf("%#v,%#v", msg.Responser, msg)
 	dingTalk := DingTalk{
 		Robot: Robot{
 			WebHook: "https://oapi.dingtalk.com/robot/send?access_token=07de3a3799f70778bb98f95e7ef64b1693b30415a3ec59ea42e97de873f1aee0",
 		},
 	}
 	gitlog := LoadCommitMessage("")
-	//log.Println(gitlog)
-	return
-	//	out, err := json.Marshal(msg)
-	param := &JenkinsMessageParam{}
-	param.GitCommitName = name
+	//latestLog := LoadLatestGitLogs()
+	user := LoadLatestCommitUser()
+	param.GitCommitName = user
 	param.GitLog = gitlog
-	param.ErrorMsg = errMssage
-	dingTalk.SendJenkinsMessage(param, msg)
+	param.ErrorMsg = testErr
+
+	dingTalk.SendJenkinsMessage(param, nil)
 }
