@@ -2,7 +2,7 @@
  * @Date: 2020-11-10 16:46:16
  * @Author: fenggq
  * @LastEditors: fenggq
- * @LastEditTime: 2020-11-12 10:17:54
+ * @LastEditTime: 2020-11-12 10:54:14
  * @FilePath: /godemo/dingtalk.go
  */
 package main
@@ -87,6 +87,11 @@ func (d *DingTalk) GetReporters(param *JenkinsMessageParam) string {
 	return responser
 }
 
+//SendMarkdownMessage ...
+func (d *DingTalk) SendMarkdownMessage(param *JenkinsMessageParam) (WebHookResponse, error) {
+	return WebHookResponse{}, nil
+}
+
 //SendJenkinsMessage ...
 func (d *DingTalk) SendJenkinsMessage(param *JenkinsMessageParam) (WebHookResponse, error) {
 	title := "jenkins自动化测试"
@@ -97,11 +102,10 @@ func (d *DingTalk) SendJenkinsMessage(param *JenkinsMessageParam) (WebHookRespon
 	alertUser := ""
 	resultTitle := "测试错误信息"
 	if len(responser) > 0 {
-		if len(commitUser) > 0 {
+		if len(commitUser) > 0 && strings.Contains(responser, commitUser) == false {
 			alertUser = fmt.Sprintf("@%s", commitUser)
 		}
 		alertUser = fmt.Sprintf("%s@%s", alertUser, responser)
-		//param.GitLog = LoadCommitMessage("")
 	} else {
 		resultTitle = "测试结果正常"
 	}
@@ -114,7 +118,8 @@ func (d *DingTalk) SendJenkinsMessage(param *JenkinsMessageParam) (WebHookRespon
 		Text:  text,
 	}
 	at := At{
-		AtMobiles: []string{"17316225231",
+		AtMobiles: []string{
+			"17316225231",
 			"13552079799",
 			"15901435695",
 			"13581894261",
@@ -125,5 +130,10 @@ func (d *DingTalk) SendJenkinsMessage(param *JenkinsMessageParam) (WebHookRespon
 	body["msgtype"] = "markdown"
 	body["markdown"] = msg
 	body["at"] = at
-	return d.send(body)
+	responce, err := d.send(body)
+	if err == nil && len(alertUser) > 0 {
+		text := fmt.Sprintf("自动化build错误，请关注 %s", alertUser)
+		d.SendTextMessage(text)
+	}
+	return responce, err
 }
