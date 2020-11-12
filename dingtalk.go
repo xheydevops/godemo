@@ -2,7 +2,7 @@
  * @Date: 2020-11-10 16:46:16
  * @Author: fenggq
  * @LastEditors: fenggq
- * @LastEditTime: 2020-11-12 10:54:14
+ * @LastEditTime: 2020-11-12 11:08:20
  * @FilePath: /godemo/dingtalk.go
  */
 package main
@@ -60,11 +60,21 @@ func init() {
 //SendTextMessage ...
 func (d *DingTalk) SendTextMessage(text string) (WebHookResponse, error) {
 	msg := TextMessage{
-		Content: "`" + text + "`",
+		Content: text,
+	}
+	at := At{
+		AtMobiles: []string{
+			"17316225231",
+			"13552079799",
+			"15901435695",
+			"13581894261",
+			"18211025188"},
+		IsAtAll: false,
 	}
 	body := make(map[string]interface{})
 	body["msgtype"] = "text"
 	body["text"] = msg
+	body["at"] = at
 
 	return d.send(body)
 }
@@ -131,8 +141,9 @@ func (d *DingTalk) SendJenkinsMessage(param *JenkinsMessageParam) (WebHookRespon
 	body["markdown"] = msg
 	body["at"] = at
 	responce, err := d.send(body)
+	log.Println(responce, "====", err, alertUser)
 	if err == nil && len(alertUser) > 0 {
-		text := fmt.Sprintf("自动化build错误，请关注 %s", alertUser)
+		text := fmt.Sprintf("自动化测试build错误，请关注 %s", alertUser)
 		d.SendTextMessage(text)
 	}
 	return responce, err
