@@ -2,7 +2,7 @@
  * @Date: 2020-11-10 16:46:16
  * @Author: fenggq
  * @LastEditors: fenggq
- * @LastEditTime: 2020-11-12 11:16:36
+ * @LastEditTime: 2020-11-12 11:23:51
  * @FilePath: /godemo/dingtalk.go
  */
 package main
@@ -143,7 +143,7 @@ func (d *DingTalk) SendJenkinsMessage(param *JenkinsMessageParam) (WebHookRespon
 	responce, err := d.send(body)
 	log.Println(responce, "====", err, alertUser)
 	if err == nil && len(alertUser) > 0 {
-		text := fmt.Sprintf("自动化测试错误，请关注 %s", alertUser)
+		text := fmt.Sprintf("自动化测试未通过，请关注 %s", alertUser)
 		d.SendTextMessage(text)
 	}
 	return responce, err
