@@ -2,7 +2,7 @@
  * @Date: 2020-11-10 16:46:16
  * @Author: fenggq
  * @LastEditors: fenggq
- * @LastEditTime: 2020-11-11 20:21:31
+ * @LastEditTime: 2020-11-12 10:17:54
  * @FilePath: /godemo/dingtalk.go
  */
 package main
@@ -101,11 +101,11 @@ func (d *DingTalk) SendJenkinsMessage(param *JenkinsMessageParam) (WebHookRespon
 			alertUser = fmt.Sprintf("@%s", commitUser)
 		}
 		alertUser = fmt.Sprintf("%s@%s", alertUser, responser)
-		param.GitLog = LoadCommitMessage("")
+		//param.GitLog = LoadCommitMessage("")
 	} else {
 		resultTitle = "测试结果正常"
-		param.GitLog = LoadLatestGitLogs()
 	}
+	param.GitLog = LoadLatestGitLogs()
 	text := fmt.Sprintf("### 最近提交者：%s \n \n ### gitlog \n```json\n %s \n```\n ### %s\n```json\n %s \n``` \n %s",
 		user, param.GitLog, resultTitle, param.ErrorMsg, alertUser)
 
