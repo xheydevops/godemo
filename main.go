@@ -2,7 +2,7 @@
  * @Date: 2020-11-08 19:04:14
  * @Author: fenggq
  * @LastEditors: fenggq
- * @LastEditTime: 2020-11-11 20:41:44
+ * @LastEditTime: 2020-11-13 09:50:36
  * @FilePath: /godemo/main.go
  */
 package main
@@ -79,13 +79,14 @@ func gotest(param *JenkinsMessageParam) string {
 }
 
 func main() {
-	var token string
+	var token, serverName string
 
 	log.SetFlags(log.Lshortfile)
 	log.Printf("Build time:\t%s\n", BuildTime)
 	param := &JenkinsMessageParam{}
 	testErr := gotest(param)
-	flag.StringVar(&token, "t", "07de3a3799f70778bb98f95e7ef64b1693b30415a3ec59ea42e97de873f1aee0", "用户名,默认为空")
+	flag.StringVar(&token, "t", "07de3a3799f70778bb98f95e7ef64b1693b30415a3ec59ea42e97de873f1aee0", "钉钉token")
+	flag.StringVar(&serverName, "serverName", "server", "server名")
 	flag.Parse()
 	dingdingHook := fmt.Sprintf("https://oapi.dingtalk.com/robot/send?access_token=%s", token)
 	log.Println(dingdingHook)
@@ -95,6 +96,7 @@ func main() {
 		},
 	}
 	user := LoadLatestCommitUser()
+	param.AppName = serverName
 	param.GitCommitName = user
 	param.ErrorMsg = testErr
 	dingTalk.SendJenkinsMessage(param)

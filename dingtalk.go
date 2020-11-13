@@ -2,7 +2,7 @@
  * @Date: 2020-11-10 16:46:16
  * @Author: fenggq
  * @LastEditors: fenggq
- * @LastEditTime: 2020-11-12 11:23:51
+ * @LastEditTime: 2020-11-13 09:49:40
  * @FilePath: /godemo/dingtalk.go
  */
 package main
@@ -15,6 +15,7 @@ import (
 
 //JenkinsMessageParam ...
 type JenkinsMessageParam struct {
+	AppName       string    `json:"appName"`
 	GitCommitName string    `json:"commitName"`
 	GoTestError   []*GoTest `json:"goTest"`
 	GitLog        string    `json:"gitLog"`
@@ -120,8 +121,8 @@ func (d *DingTalk) SendJenkinsMessage(param *JenkinsMessageParam) (WebHookRespon
 		resultTitle = "测试结果正常"
 	}
 	param.GitLog = LoadLatestGitLogs()
-	text := fmt.Sprintf("### 最近提交者：%s \n \n ### git最近日志 \n```json\n %s \n```\n ### %s\n```json\n %s \n``` \n %s",
-		user, param.GitLog, resultTitle, param.ErrorMsg, alertUser)
+	text := fmt.Sprintf("### 最近提交者：%s \n\n 产品:%s \n ### git最近日志 \n```json\n %s \n```\n ### %s\n```json\n %s \n``` \n %s",
+		user, param.AppName, param.GitLog, resultTitle, param.ErrorMsg, alertUser)
 
 	msg := MarkdownMessage{
 		Title: title,
@@ -143,7 +144,7 @@ func (d *DingTalk) SendJenkinsMessage(param *JenkinsMessageParam) (WebHookRespon
 	responce, err := d.send(body)
 	log.Println(responce, "====", err, alertUser)
 	if err == nil && len(alertUser) > 0 {
-		text := fmt.Sprintf("自动化测试未通过，请关注 %s", alertUser)
+		text := fmt.Sprintf("%s自动化测试未通过，请关注 %s", param.AppName, alertUser)
 		d.SendTextMessage(text)
 	}
 	return responce, err
