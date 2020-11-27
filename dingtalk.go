@@ -2,7 +2,7 @@
  * @Date: 2020-11-10 16:46:16
  * @Author: fenggq
  * @LastEditors: fenggq
- * @LastEditTime: 2020-11-13 09:49:40
+ * @LastEditTime: 2020-11-27 20:00:27
  * @FilePath: /godemo/dingtalk.go
  */
 package main
@@ -121,8 +121,9 @@ func (d *DingTalk) SendJenkinsMessage(param *JenkinsMessageParam) (WebHookRespon
 		resultTitle = "测试结果正常"
 	}
 	param.GitLog = LoadLatestGitLogs()
-	text := fmt.Sprintf("### 最近提交者：%s \n\n 产品:%s \n ### git最近日志 \n```json\n %s \n```\n ### %s\n```json\n %s \n``` \n %s",
-		user, param.AppName, param.GitLog, resultTitle, param.ErrorMsg, alertUser)
+	branch := GetBranch()
+	text := fmt.Sprintf("### 最近提交者：%s \n\n 产品:%s \n分支：%s \n ### git最近日志 \n```json\n %s \n```\n ### %s\n```json\n %s \n``` \n %s",
+		user, param.AppName, branch, param.GitLog, resultTitle, param.ErrorMsg, alertUser)
 
 	msg := MarkdownMessage{
 		Title: title,

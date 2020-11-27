@@ -2,7 +2,7 @@
  * @Date: 2020-11-10 20:32:43
  * @Author: fenggq
  * @LastEditors: fenggq
- * @LastEditTime: 2020-11-11 19:15:12
+ * @LastEditTime: 2020-11-27 19:59:35
  * @FilePath: /godemo/gitlog.go
  */
 package main
@@ -27,6 +27,17 @@ var glogs []GitLog
 //LoadLatestGitLogs ...
 func LoadLatestGitLogs() string {
 	gitcmd := "git log -1"
+	gitlog, err := CMD(gitcmd)
+	if err != nil {
+		log.Println(err)
+		return ""
+	}
+	return gitlog
+}
+
+//GetBranch 获取当前分支
+func GetBranch() string {
+	gitcmd := "git branch |grep '*' |awk '{print $2}'"
 	gitlog, err := CMD(gitcmd)
 	if err != nil {
 		log.Println(err)
