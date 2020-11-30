@@ -2,7 +2,7 @@
  * @Date: 2020-11-08 19:04:14
  * @Author: fenggq
  * @LastEditors: fenggq
- * @LastEditTime: 2020-11-30 14:12:51
+ * @LastEditTime: 2020-11-30 14:19:33
  * @FilePath: /godemo/main.go
  */
 package main
@@ -87,7 +87,7 @@ func main() {
 	testErr := gotest(param)
 	flag.StringVar(&token, "t", "07de3a3799f70778bb98f95e7ef64b1693b30415a3ec59ea42e97de873f1aee0", "钉钉token")
 	flag.StringVar(&serverName, "serverName", "server", "server名")
-	flag.StringVar(&gitbranch, "gitbranch", "master", "git branch")
+	flag.StringVar(&gitbranch, "gitbranch", "mater", "git branch")
 	flag.Parse()
 	dingdingHook := fmt.Sprintf("https://oapi.dingtalk.com/robot/send?access_token=%s", token)
 	log.Println(dingdingHook)
@@ -96,9 +96,13 @@ func main() {
 			WebHook: dingdingHook,
 		},
 	}
+	if len(gitbranch) == 0 {
+		gitbranch = "分支未传"
+	}
 	user := LoadLatestCommitUser()
 	param.AppName = serverName
 	param.GitCommitName = user
+	param.GitBranch = gitbranch
 	param.ErrorMsg = testErr
 	dingTalk.SendJenkinsMessage(param)
 }
