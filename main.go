@@ -2,7 +2,7 @@
  * @Date: 2020-11-08 19:04:14
  * @Author: fenggq
  * @LastEditors: fenggq
- * @LastEditTime: 2020-11-13 09:50:36
+ * @LastEditTime: 2020-11-30 14:12:51
  * @FilePath: /godemo/main.go
  */
 package main
@@ -79,7 +79,7 @@ func gotest(param *JenkinsMessageParam) string {
 }
 
 func main() {
-	var token, serverName string
+	var token, serverName, gitbranch string
 
 	log.SetFlags(log.Lshortfile)
 	log.Printf("Build time:\t%s\n", BuildTime)
@@ -87,6 +87,7 @@ func main() {
 	testErr := gotest(param)
 	flag.StringVar(&token, "t", "07de3a3799f70778bb98f95e7ef64b1693b30415a3ec59ea42e97de873f1aee0", "钉钉token")
 	flag.StringVar(&serverName, "serverName", "server", "server名")
+	flag.StringVar(&gitbranch, "gitbranch", "master", "git branch")
 	flag.Parse()
 	dingdingHook := fmt.Sprintf("https://oapi.dingtalk.com/robot/send?access_token=%s", token)
 	log.Println(dingdingHook)
