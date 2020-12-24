@@ -2,7 +2,7 @@
  * @Date: 2020-11-09 11:18:42
  * @Author: fenggq
  * @LastEditors: fenggq
- * @LastEditTime: 2020-11-12 10:59:29
+ * @LastEditTime: 2020-11-30 10:49:32
  * @FilePath: /godemo/go_test.go
  */
 package main
@@ -21,7 +21,8 @@ func TestRun(t *testing.T) {
 		//log.Printf("Git branch:\t%s\n", GitBranch)
 		log.Printf("Golang Version: %s\n", GoVersion)*/
 	t.Log("test", "TestRun")
-	t.Error("===")
+	branch := GetBranch()
+	t.Error("===", branch)
 }
 
 func TestRun2(t *testing.T) {
