@@ -2,7 +2,7 @@
  * @Date: 2020-11-08 19:04:14
  * @Author: fenggq
  * @LastEditors: fenggq
- * @LastEditTime: 2020-12-24 14:43:30
+ * @LastEditTime: 2020-12-24 14:53:05
  * @FilePath: /godemo/main.go
  */
 package main
@@ -84,7 +84,7 @@ func main() {
 	log.SetFlags(log.Lshortfile)
 	log.Printf("Build time:\t%s\n", BuildTime)
 	param := &JenkinsMessageParam{}
-	testErr := gotest("./test_XCameraAPI", param)
+	testErr := gotest("./test", param)
 	flag.StringVar(&token, "t", "07de3a3799f70778bb98f95e7ef64b1693b30415a3ec59ea42e97de873f1aee0", "钉钉token")
 	flag.StringVar(&serverName, "serverName", "server", "server名")
 	flag.StringVar(&gitbranch, "gitbranch", "未知分支", "git branch")
