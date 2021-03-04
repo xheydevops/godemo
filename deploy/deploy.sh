@@ -2,7 +2,7 @@
  # @Date: 2020-11-09 13:42:04
  # @Author: fenggq
  # @LastEditors: fenggq
- # @LastEditTime: 2021-03-04 19:36:16
+ # @LastEditTime: 2021-03-04 19:36:46
  # @FilePath: /godemo/deploy/deploy.sh
 ### 
 #! /bin/bash
@@ -25,7 +25,6 @@ dingding["骆玉霞"]=13552079799
 dingding["谢辉生"]=15901435695
 dingding["姜亦春"]=13581894261
 dingding["杜于庆"]=18211025188
-
 
 function strinclude() {
   s1=$1
